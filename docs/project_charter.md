@@ -1,105 +1,106 @@
-# Project Charter
+# Project Charter - Empregabilidade Jovem no Brasil
 
-## 1. Problema de Negócio
+## Problema de Negócio
 
-A transição de jovens que saem da escola para o mercado de trabalho no Brasil é dificultada por diferenças de acesso à informação e disparidades geográficas. Organizações focadas no desenvolvimento profissional carecem de uma base unificada para direcionar suas iniciativas, uma vez que dados demográficos, indicadores de empregabilidade e informações relacionadas ao mercado de trabalho estão distribuídos em diferentes fontes.
+A inserção de jovens no mercado de trabalho brasileiro apresenta diferenças entre estados e regiões. O projeto busca organizar e apresentar dados relacionados à empregabilidade jovem de forma acessível, permitindo a comparação de indicadores e o acompanhamento de informações complementares relacionadas às juventudes.
 
-O centro desta pesquisa reside na ausência de uma pesquisa centralizada e fundamentado em dados que permita identificar as regiões com maiores desafios relacionados à empregabilidade jovem e compreender quais competências profissionais são mais demandadas pelo mercado.
+## Objetivo Geral
 
-A aplicação proposta buscará integrar esses conjuntos de dados em um painel interativo, viabilizando a análise comparativa entre indicadores socioeconômicos regionais e informações relacionadas às oportunidades de trabalho disponíveis. Dessa forma, a ferramenta poderá atuar como suporte à tomada de decisão de gestores públicos e privados envolvidos em iniciativas de capacitação e empregabilidade.
+Desenvolver uma aplicação interativa para consulta e comparação de indicadores relacionados à empregabilidade jovem no Brasil, integrando dados públicos, coleta Web e uma API própria.
 
-Pergunta central:
-Quais regiões brasileiras apresentam maiores desafios relacionados à inserção de jovens no mercado de trabalho e quais competências profissionais são mais demandadas nas oportunidades disponíveis?
+## Objetivos Específicos
 
-## 2. Metas e Indicadores de Sucesso
+- Comparar indicadores de empregabilidade jovem entre estados e regiões brasileiras.
+- Identificar diferenças nas taxas de desocupação dos jovens.
+- Apresentar notícias relacionadas à empregabilidade jovem.
+- Organizar a aplicação em múltiplas páginas de acordo com suas funcionalidades.
+- Disponibilizar os dados por meio de uma API desenvolvida com FastAPI.
+- Integrar a aplicação Streamlit com a API.
+- Ampliar a coleta de dados utilizando Web Scraping e Selenium.
+- Preparar os dados e a arquitetura do projeto para futuras funcionalidades utilizando LLMs.
 
-### Meta 1 — Cobertura geográfica dos indicadores
+## Escopo do TP3
 
-Informações sobre empregabilidade jovem nas UFs que possuam dados disponíveis e confiáveis , permitindo comparações entre as cinco regiões brasileiras.
+O TP3 amplia o projeto desenvolvido anteriormente com os seguintes recursos:
 
-**Indicador de sucesso:** percentual de UFs.
+- Aplicação Streamlit organizada em múltiplas páginas.
+- Navegação entre indicadores, comparador, notícias, dados dinâmicos e API.
+- API desenvolvida com FastAPI.
+- Rotas GET para consulta de indicadores.
+- Rota POST para recebimento de novas notícias.
+- Integração entre Streamlit e FastAPI.
+- Coleta de dados utilizando Selenium.
+- Armazenamento dos dados coletados em arquivos na pasta `data/`.
+- Preparação para futura integração com modelos de linguagem.
 
-**Critério de sucesso:** atingir cobertura das 27 unidades da federação (se os dados forem disponibilizados e confiáveis).
+## Fontes de Dados
 
-### Meta 2 — Permitir a identificação das regiões com maiores desafios de empregabilidade jovem
+- IBGE / SIDRA para indicadores de empregabilidade.
+- Agência Brasil para notícias relacionadas à empregabilidade jovem.
+- Painel das Juventudes da Bahia para dados complementares coletados com Selenium.
+- Arquivos CSV enviados pelo usuário.
 
-Organizar os indicadores coletados de forma que seja possível comparar as condições de empregabilidade dos jovens entre estados e regiões brasileiras.
+## Stakeholders
 
-**Indicador de sucesso:** quantidade de indicadores socioeconômicos e de empregabilidade para comparação.
+- Jovens interessados em informações sobre mercado de trabalho.
+- Pesquisadores e estudantes.
+- Gestores e profissionais interessados em indicadores de juventude.
+- Usuários da aplicação Streamlit.
+- Sistemas e aplicações externas que podem consumir os dados por meio da API.
 
-**Critério de sucesso:** apresentar indicadores relevantes relacionados à inserção dos jovens no mercado de trabalho.
+## Tecnologias Utilizadas
 
-### Meta 3 — Identificar as competências mais demandadas pelo mercado
+- Python
+- Streamlit
+- FastAPI
+- Requests
+- BeautifulSoup
+- Selenium
+- CSV
+- Git e GitHub
 
-Analisar as informações disponíveis sobre oportunidades de trabalho para identificar quais competências profissionais aparecem com maior frequência nas vagas.
+## Decisão sobre Selenium
 
-**Indicador de sucesso:** quantidade de competências identificadas e frequência com que aparecem nas oportunidades.
+No TP2, a coleta de notícias da Agência Brasil foi realizada com Requests e BeautifulSoup, pois as informações necessárias estavam disponíveis diretamente no HTML.
 
-**Critério de sucesso:** apresentar um ranking com as competências profissionais mais recorrentes no conjunto de vagas coletadas.
+No TP3, Selenium foi utilizado como complemento para acessar o Painel das Juventudes da Bahia utilizando um navegador automatizado. A coleta é executada separadamente da aplicação e o resultado é armazenado em `data/processed/painel_juventudes_trabalho.txt`.
 
-### Meta 4 — Apoiar a tomada de decisão dos usuários
+## Integração com FastAPI
 
-Permitir que profissionais envolvidos em iniciativas de capacitação e empregabilidade consigam utilizar o dashboard para identificar regiões prioritárias e compreender as competências mais demandadas pelo mercado.
+A API permite que os dados do projeto também sejam utilizados por outros programas.
 
-**Indicador de sucesso:** quantidade de interações necessárias para chegar às principais informações da aplicação.
+Foram implementadas rotas para:
 
-**Critério de sucesso:** permitir que o usuário identifique uma região com maior necessidade de atenção e consulte as principais competências.
+- Consultar todos os indicadores.
+- Filtrar indicadores por região.
+- Consultar indicadores por UF.
+- Consultar notícias recebidas pela API.
+- Enviar novas notícias por meio de uma requisição POST.
 
+A aplicação Streamlit possui uma página específica que consome essas rotas.
 
-## 3. ODS Atendido
+## Preparação para Uso de LLMs
 
-A ODS que está sendo atendida é a **ODS 8 — Trabalho Decente e Crescimento Econômico**, que busca promover o crescimento econômico sustentável, o emprego e oportunidades de trabalho decente para todos.
+O projeto foi estruturado para permitir a introdução de modelos de linguagem em etapas futuras.
 
-A relação com a ODS ocorre porque a aplicação tem como foco a empregabilidade de jovens no Brasil, buscando identificar regiões com maiores dificuldades de inserção no mercado de trabalho e compreender quais competências profissionais são mais demandadas nas oportunidades disponíveis.
+Possíveis aplicações incluem:
 
-## 4. Público-Alvo
+- Resumo automático das notícias coletadas.
+- Classificação e análise de textos relacionados ao mercado de trabalho.
+- Geração automática de relatórios a partir dos indicadores.
+- Sistema de perguntas e respostas sobre os dados do projeto.
+- Geração de explicações em linguagem natural sobre diferenças entre estados e regiões.
 
-O público-alvo são profissionais de organizações públicas, privadas e que atuam em iniciativas de capacitação profissional, empregabilidade que coloquem os jovens no mercado de trabalho.
+Os dados estruturados de indicadores e os textos coletados poderão ser utilizados como contexto para essas funcionalidades.
 
+## Critérios de Sucesso
 
-## 5. Escopo do Projeto
+O projeto será considerado bem-sucedido quando permitir:
 
-O projeto tem como foco a análise da empregabilidade de jovens no Brasil que saem da escola, utilizando dados que permitam comparar as condições entre estados e regiões e informações relacionadas às competências profissionais encontradas nas oportunidades de trabalho.
-
-A aplicação deverá reunir esses dados de forma organizada e apresentá-los em um dashboard interativo, permitindo identificar regiões com maiores desafios relacionados à inserção de jovens no mercado de trabalho.
-
-O projeto terá coleta inicial dos dados e desenvolvimento da primeira versão da aplicação em Python com Streamlit.
-
-
-## 6. Objetivos do Projeto
-
-O projeto tem como foco a análise da empregabilidade de jovens no Brasil que saem da escola, utilizando dados que permitam comparar as condições entre estados e regiões e informações relacionadas às competências profissionais encontradas nas oportunidades de trabalho.
-
-* Coletar dados relacionados à empregabilidade jovem no Brasil.
-* Comparar indicadores entre estados e regiões brasileiras.
-* Identificar regiões que apresentam maiores desafios relacionados à inserção dos jovens no mercado de trabalho.
-* Identificar competências profissionais recorrentes nas oportunidades de trabalho analisadas.
-* Apresentar os dados e indicadores em um dashboard interativo desenvolvido em Streamlit.
-* Fornecer informações que possam apoiar profissionais e organizações envolvidos em iniciativas de capacitação e empregabilidade.
-
-## 7. Stakeholders
-
-Os principais stakeholders do projeto são:
-
-* Profissionais de organizações públicas e privadas que desenvolvem iniciativas de capacitação e empregabilidade.
-* Órgãos públicos relacionados às áreas de trabalho, educação e desenvolvimento profissional.
-* Organizações do terceiro setor que desenvolvem projetos voltados para jovens e inserção no mercado de trabalho.
-* Instituições de ensino e capacitação profissional.
-* Jovens que buscam qualificação e oportunidades de entrada no mercado de trabalho.
-
-
-## 8. Evolução do Projeto no TP2
-
-Nesta etapa, o projeto de Empregabilidade Jovem no Brasil foi ampliado com novas funcionalidades para permitir maior interação dos usuários com os dados apresentados no dashboard.
-
-A aplicação desenvolvida em Python com Streamlit permite selecionar regiões e estados brasileiros, consultar indicadores de empregabilidade jovem e comparar as taxas de desocupação dos jovens de 18 a 24 anos entre diferentes unidades da federação.
-
-Além dos indicadores obtidos por meio da API do IBGE, foram incorporadas notícias relacionadas à empregabilidade jovem, coletadas da Agência Brasil utilizando Web Scraping com BeautifulSoup.
-
-As informações coletadas são armazenadas em arquivo CSV e apresentadas no dashboard, permitindo consultar títulos, datas, fontes e links das notícias, além de visualizar a frequência das palavras presentes nos títulos.
-
-A aplicação também permite que o usuário envie arquivos CSV com notícias complementares, consulte os dados adicionados e faça o download dos indicadores de empregabilidade conforme os filtros selecionados.
-
-Foram implementados mecanismos de cache para otimizar a leitura dos dados e estado de sessão para manter as escolhas dos usuários durante a utilização da aplicação.
-
-O projeto utiliza Git e GitHub para controle de versão e está publicado no Streamlit Community Cloud, permitindo o acesso à aplicação pela internet.
+- Navegação entre múltiplas páginas.
+- Consulta e comparação dos indicadores.
+- Visualização das notícias coletadas.
+- Consulta de dados coletados dinamicamente.
+- Comunicação entre Streamlit e FastAPI.
+- Utilização de rotas GET e POST.
+- Organização dos dados para utilização futura com LLMs.

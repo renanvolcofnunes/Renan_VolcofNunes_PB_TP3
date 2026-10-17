@@ -1,140 +1,144 @@
-# Data Summary Report
+# Data Summary Report - Empregabilidade Jovem no Brasil
 
-## 1. Visão Geral
+## Visão Geral
 
-Será utilizada uma fonte oficial de dados públicos para analisar indicadores de empregabilidade por região e Unidade da Federação. Outras fontes poderão ser incorporadas nas próximas etapas para complementar a análise com informações sobre oportunidades e competências profissionais.
+O projeto utiliza diferentes fontes de dados para analisar aspectos relacionados à empregabilidade jovem no Brasil.
 
+Os dados são armazenados em arquivos estruturados e textos processados dentro da pasta `data/`.
 
-## 2. Fontes de Dados
+## Indicadores de Empregabilidade
 
-### Fonte 1 — IBGE / SIDRA / PNAD Contínua
+### Fonte
 
-**Fonte:** IBGE — Sistema IBGE de Recuperação Automática (SIDRA), utilizando dados da PNAD Contínua.
+IBGE / SIDRA.
 
-**Tipo de dado:** Semi-estruturado, em formato JSON, obtido por meio de API.
+### Arquivo
 
-**Objetivo de uso:** Indicadores relacionados à ocupação, desocupação e participação dos jovens no mercado de trabalho para permitir comparações entre estados e regiões brasileiras.
+`data/sample/empregabilidade_jovem.csv`
 
-### Fonte 2 — Ministério do Trabalho e Emprego / Guia Brasileiro de Ocupações
+### Principais Campos
 
-**Fonte:** Ministério do Trabalho e Emprego — Guia Brasileiro de Ocupações e Classificação Brasileira de Ocupações (CBO).
+- `uf`
+- `estado`
+- `regiao`
+- `taxa_desocupacao`
 
-**Tipo de dado:** Estruturado e textual, disponibilizado em painéis e bases públicas.
+### Utilização
 
-**Objetivo de uso:** utilizar informações relacionadas às ocupações profissionais, atividades realizadas, conhecimentos e habilidades associadas às profissões para complementar a análise sobre competências profissionais relevantes para o mercado de trabalho.
+Os dados são utilizados para:
 
-## 3. Dados que serão utilizados
+- Filtrar indicadores por região.
+- Filtrar indicadores por estado.
+- Comparar estados.
+- Gerar gráficos.
+- Disponibilizar consultas por meio da API FastAPI.
 
-### Dados da Fonte 1 — IBGE / SIDRA / PNAD Contínua
+## Notícias sobre Empregabilidade
 
-- Unidade da Federação (UF).
-- Região brasileira.
-- Faixa etária dos jovens analisados.
-- Quantidade de pessoas ocupadas.
-- Quantidade de pessoas desocupadas.
-- Taxa de desocupação.
-- Nível de ocupação.
+### Fonte
 
-### Dados da Fonte 2 — Ministério do Trabalho e Emprego / Guia Brasileiro de Ocupações
+Agência Brasil.
 
-- Nome da ocupação profissional.
-- Código da ocupação na CBO.
-- Descrição da ocupação.
-- Atividades relacionadas à ocupação.
-- Conhecimentos associados à profissão.
-- Habilidades e competências relacionadas à ocupação.
+### Método de Coleta
 
+Requests e BeautifulSoup.
 
-## 4. Relação das Fontes com o Problema do Projeto
+### Arquivo Processado
 
-A Fonte 1, IBGE / SIDRA / PNAD Contínua, analisa indicadores de empregabilidade jovem entre estados e regiões brasileiras, identificando diferentes relacionadas à ocupação e desocupação dos jovens.
+`data/processed/noticias_empregabilidade.csv`
 
-A Fonte 2, Ministério do Trabalho e Emprego / Guia Brasileiro de Ocupações, utiliza pra complementar a análise com informações sobre ocupações, atividades, conhecimentos e competências profissionais relacionadas ao mercado de trabalho.
+### Principais Campos
 
+- `titulo`
+- `data`
+- `url`
+- `fonte`
 
-## 5. Novas Fontes de Dados — TP2
+### Utilização
 
-### Fonte 3 — Agência Brasil / Empresa Brasil de Comunicação (EBC)
+As notícias são apresentadas na aplicação e utilizadas para análise de frequência de palavras presentes nos títulos.
 
-**Fonte:** Agência Brasil, portal de notícias da Empresa Brasil de Comunicação (EBC).
+## Dados Enviados pelo Usuário
 
-**Link:** https://agenciabrasil.ebc.com.br/
+A aplicação permite o envio de arquivos CSV contendo notícias adicionais.
 
-**Tipo de dado:** Dados semiestruturados, extraídos de páginas HTML por meio de Web Scraping com Requests e BeautifulSoup.
+Os arquivos passam por validação antes de serem utilizados.
 
-**Objetivo de uso:** Coletar notícias relacionadas à empregabilidade jovem, qualificação profissional e mercado de trabalho, complementando os indicadores apresentados no dashboard.
+Os registros enviados pelo usuário são identificados separadamente dos registros coletados pela Web para preservar a procedência dos dados.
 
-**Dados utilizados:**
+## Dados Recebidos pela API
 
-- Título da notícia.
-- Data de publicação.
-- URL da notícia.
-- Fonte da informação.
+A API FastAPI possui uma rota POST que permite o envio de novas notícias.
 
-As informações são armazenadas em um arquivo CSV e utilizadas para apresentar notícias no dashboard e identificar as palavras mais frequentes nos títulos coletados.
+Os registros são armazenados em:
 
-### Fonte 4 — Arquivos CSV enviados pelos usuários
+`data/processed/noticias_api.csv`
 
-**Fonte:** Arquivos CSV enviados pelos usuários da aplicação por meio do Streamlit.
+A aplicação também permite consultar esses registros por meio de uma rota GET.
 
-**Tipo de dado:** Dados estruturados em formato CSV.
+## Coleta Dinâmica com Selenium
 
-**Objetivo de uso:** Permitir que os usuários adicionem notícias complementares relacionadas à empregabilidade jovem, ampliando as informações disponíveis para consulta e análise.
+### Fonte
 
-**Dados utilizados:**
+Painel das Juventudes da Bahia.
 
-- Título da notícia.
-- Data de publicação.
-- URL da notícia.
-- Fonte da informação.
-- Procedência dos dados.
+### Método
 
-Os arquivos enviados passam por uma validação antes de serem utilizados. As notícias adicionadas são armazenadas no estado de sessão do usuário e podem complementar a análise das notícias coletadas por Web Scraping.
+Selenium com navegador Chrome automatizado.
 
+### Arquivo
 
-## 6. Organização e Tratamento dos Dados
+`data/processed/painel_juventudes_trabalho.txt`
 
-Os dados utilizados no projeto são organizados em diferentes diretórios, conforme sua finalidade.
+### Processo
 
-### Dados do IBGE
+O Selenium acessa a página utilizando um navegador automatizado, aguarda o carregamento do documento, executa a navegação necessária e coleta o conteúdo textual disponível.
 
-Os indicadores de empregabilidade jovem foram obtidos por meio da API do IBGE e armazenados no arquivo `data/sample/empregabilidade_jovem.csv`.
+A coleta é executada separadamente da aplicação Streamlit.
 
-O arquivo contém informações sobre as unidades da federação, regiões brasileiras, faixa etária, taxas de desocupação e período de referência.
+### Utilização
 
-Esses dados são utilizados nos filtros, tabelas, gráficos e na comparação entre estados brasileiros.
+O conteúdo coletado é apresentado na página "Dados Dinâmicos" da aplicação.
 
-### Dados coletados por Web Scraping
+Essa fonte é utilizada como informação complementar sobre juventudes e não substitui os indicadores nacionais do IBGE.
 
-A coleta das notícias é realizada separadamente da aplicação Streamlit, utilizando o arquivo `src/coleta_web.py`.
+## API FastAPI
 
-Antes da coleta, são verificadas as regras de acesso do site por meio do arquivo robots.txt.
+A API não representa uma nova fonte de dados.
 
-As páginas HTML coletadas são armazenadas no diretório `data/raw/`, enquanto as informações extraídas e organizadas são salvas em `data/processed/noticias_empregabilidade.csv`.
+Ela funciona como uma nova forma de acesso aos dados existentes no projeto.
 
-O arquivo CSV processado é utilizado pelo dashboard para apresentar as notícias e realizar a contagem das palavras mais frequentes nos títulos.
+As principais rotas permitem:
 
-### Dados enviados pelos usuários
+- Consulta de indicadores.
+- Consulta de indicadores por UF.
+- Filtro por região.
+- Consulta de notícias recebidas.
+- Envio de novas notícias.
 
-A aplicação permite o envio de arquivos CSV contendo notícias complementares.
+## Qualidade e Limitações
 
-Antes de incorporar os dados, são verificadas as colunas obrigatórias, o conteúdo do arquivo e sua codificação.
+Os dados do IBGE são utilizados como principal referência quantitativa do projeto.
 
-As notícias enviadas são armazenadas no `st.session_state` e identificadas pela procedência "Upload".
+As notícias e os dados coletados pela Web possuem finalidade complementar.
 
-Os dados coletados por Web Scraping e os enviados pelos usuários são reunidos na análise conjunta, evitando a duplicação de notícias com a mesma URL.
+O Painel das Juventudes da Bahia possui recorte estadual e, portanto, não deve ser interpretado como representação de todo o Brasil.
 
-Os arquivos enviados não são armazenados permanentemente no projeto.
+A disponibilidade das informações obtidas por Web Scraping ou Selenium pode depender de alterações realizadas nos sites de origem.
 
+## Preparação dos Dados para LLMs
 
-## 7. Limitações dos Dados
+O projeto possui dois tipos principais de informação que poderão ser utilizados por modelos de linguagem:
 
-Os indicadores de empregabilidade apresentados no dashboard correspondem à faixa etária de 18 a 24 anos e ao período disponível na base utilizada.
+- Dados estruturados de indicadores.
+- Dados textuais provenientes de notícias e coleta Web.
 
-As notícias coletadas da Agência Brasil complementam a análise dos indicadores, mas não representam todas as informações disponíveis sobre o mercado de trabalho brasileiro.
+Em etapas futuras, esses dados poderão ser utilizados para:
 
-A análise de frequência das palavras considera os títulos das notícias coletadas e adicionadas pelos usuários, não sendo utilizada como medida direta da demanda por competências profissionais nas vagas de emprego.
+- Resumir notícias.
+- Gerar explicações dos indicadores.
+- Criar relatórios automáticos.
+- Responder perguntas sobre empregabilidade jovem.
+- Comparar regiões utilizando linguagem natural.
 
-Os dados enviados pelos usuários dependem da qualidade e da confiabilidade das fontes informadas nos arquivos CSV.
-
-Nas próximas etapas do projeto, novas fontes poderão ser incorporadas para ampliar as análises relacionadas às oportunidades de trabalho e às competências profissionais demandadas.
+A combinação de dados estruturados e conteúdo textual permite preparar o projeto para uma futura arquitetura de geração aumentada por dados do próprio projeto.
