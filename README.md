@@ -43,6 +43,10 @@ No TP3, a aplicação foi ampliada com navegação multipáginas, API FastAPI, i
 - `requirements-api.txt`: dependências da API.
 - `requirements-coleta.txt`: dependências da coleta com Selenium.
 
+## Aplicação Publicada
+
+Streamlit Community Cloud: https://empregabilidade-jovem-renan-tp3.streamlit.app/
+
 ## Ambiente de Desenvolvimento
 
 ### Criar o ambiente virtual
