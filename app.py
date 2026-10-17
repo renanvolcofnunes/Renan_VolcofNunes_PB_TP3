@@ -8,7 +8,7 @@ preservar_estado()
 
 pagina = st.navigation({"Painel": [st.Page("paginas/inicio.py", title="Início", default=True), st.Page("paginas/indicadores.py", title="Indicadores"),
                                   st.Page("paginas/comparador.py", title="Comparador"), st.Page("paginas/noticias.py", title="Notícias"),
-                                  st.Page("paginas/api.py", title="API")],
+                                  st.Page("paginas/dados_dinamicos.py", title="Dados Dinâmicos"), st.Page("paginas/api.py", title="API")],
                         "Projeto": [st.Page("paginas/sobre.py", title="Sobre o projeto")]})
 
 pagina.run()
