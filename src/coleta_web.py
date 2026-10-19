@@ -13,7 +13,8 @@ ARQUIVO_CSV = PASTA_PROCESSED / "noticias_empregabilidade.csv"
 ROBOTS_URL = "https://agenciabrasil.ebc.com.br/robots.txt"
 AGENTE = "EmpregabilidadeJovemTP2/1.0 (projeto academico)"
 URLS = ["https://agenciabrasil.ebc.com.br/economia/noticia/2026-08/desigualdades-marcam-formalizacao-do-trabalho-entre-jovens-brasileiros",
-    "https://agenciabrasil.ebc.com.br/economia/noticia/2026-06/jovens-ocupados-sao-maioria-mas-62-milhoes-seguem-como-nem-nem"]
+    "https://agenciabrasil.ebc.com.br/economia/noticia/2026-06/jovens-ocupados-sao-maioria-mas-62-milhoes-seguem-como-nem-nem",
+    "https://agenciabrasil.ebc.com.br/educacao/noticia/2026-09/percentual-de%20jovens-nem-nem-no-brasil-cai-para-224-mostra-estudo"]
 
 resposta_robots = requests.get(ROBOTS_URL, headers={"User-Agent": AGENTE}, timeout=20)
 resposta_robots.raise_for_status()

@@ -1,9 +1,12 @@
-import requests
 import streamlit as st
+from fastapi.testclient import TestClient
+from api.main import app
+
+cliente = TestClient(app)
 
 st.title("Integração com a API")
 
-API_URL = st.text_input("Endereço da API:", value="http://127.0.0.1:8000")
+st.write("Esta página utiliza a API FastAPI desenvolvida no projeto para consultar indicadores e enviar notícias.")
 
 st.subheader("Consultar Indicadores")
 
@@ -11,57 +14,42 @@ ufs = ["AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "
 uf = st.selectbox("Selecione uma UF:", ufs)
 
 if st.button("Consultar API"):
-    try:
-        resposta = requests.get(f"{API_URL}/indicadores/{uf}", timeout=10)
-        resposta.raise_for_status()
-        dados = resposta.json()
+    resposta = cliente.get(f"/indicadores/{uf}")
+    dados = resposta.json()
 
-        st.success("Consulta realizada com sucesso!")
-        st.write("Quantidade de registros:", dados["quantidade"])
-        st.dataframe(dados["dados"], width="stretch")
-
-    except requests.RequestException:
-        st.error("Não foi possível acessar a API.")
+    st.success("Consulta realizada com sucesso!")
+    st.write("Quantidade de registros:", dados["quantidade"])
+    st.dataframe(dados["dados"], width="stretch")
 
 st.subheader("Enviar Nova Notícia")
 
 with st.form("form_noticia"):
     titulo = st.text_input("Título:")
-    data = st.text_input("Data:", placeholder="2026-10-16")
+    data = st.text_input("Data:", placeholder="2026-10-19")
     url = st.text_input("URL:")
     fonte = st.text_input("Fonte:")
     enviar = st.form_submit_button("Enviar notícia para API")
 
     if enviar:
         noticia = {"titulo": titulo, "data": data, "url": url, "fonte": fonte}
+        resposta = cliente.post("/noticias", json=noticia)
 
-        try:
-            resposta = requests.post(f"{API_URL}/noticias", json=noticia, timeout=10)
-
-            if resposta.status_code == 201:
-                st.success("Notícia enviada para a API com sucesso!")
-                st.json(resposta.json())
-            else:
-                st.error("A API recusou os dados enviados.")
-                st.json(resposta.json())
-
-        except requests.RequestException:
-            st.error("Não foi possível acessar a API.")
+        if resposta.status_code == 201:
+            st.success("Notícia enviada para a API com sucesso!")
+            st.json(resposta.json())
+        else:
+            st.error("A API recusou os dados enviados.")
+            st.json(resposta.json())
 
 st.subheader("Notícias Recebidas pela API")
 
 if st.button("Consultar notícias da API"):
-    try:
-        resposta = requests.get(f"{API_URL}/noticias", timeout=10)
-        resposta.raise_for_status()
-        dados = resposta.json()
+    resposta = cliente.get("/noticias")
+    dados = resposta.json()
 
-        st.write("Quantidade de notícias:", dados["quantidade"])
+    st.write("Quantidade de notícias:", dados["quantidade"])
 
-        if dados["dados"]:
-            st.dataframe(dados["dados"], width="stretch")
-        else:
-            st.info("Nenhuma notícia foi enviada pela API.")
-
-    except requests.RequestException:
-        st.error("Não foi possível acessar a API.")
+    if dados["dados"]:
+        st.dataframe(dados["dados"], width="stretch")
+    else:
+        st.info("Nenhuma notícia foi enviada pela API.")
