@@ -5,16 +5,23 @@ from pathlib import Path
 from urllib.robotparser import RobotFileParser
 from bs4 import BeautifulSoup
 
-
 BASE = Path(__file__).resolve().parent.parent
 PASTA_RAW = BASE / "data" / "raw"
 PASTA_PROCESSED = BASE / "data" / "processed"
 ARQUIVO_CSV = PASTA_PROCESSED / "noticias_empregabilidade.csv"
+
+PASTA_RAW.mkdir(parents=True, exist_ok=True)
+PASTA_PROCESSED.mkdir(parents=True, exist_ok=True)
+
 ROBOTS_URL = "https://agenciabrasil.ebc.com.br/robots.txt"
-AGENTE = "EmpregabilidadeJovemTP2/1.0 (projeto academico)"
-URLS = ["https://agenciabrasil.ebc.com.br/economia/noticia/2026-08/desigualdades-marcam-formalizacao-do-trabalho-entre-jovens-brasileiros",
+AGENTE = "EmpregabilidadeJovemTP3/1.0 (projeto academico)"
+
+URLS = [
+    "https://agenciabrasil.ebc.com.br/economia/noticia/2026-08/desigualdades-marcam-formalizacao-do-trabalho-entre-jovens-brasileiros",
     "https://agenciabrasil.ebc.com.br/economia/noticia/2026-06/jovens-ocupados-sao-maioria-mas-62-milhoes-seguem-como-nem-nem",
-    "https://agenciabrasil.ebc.com.br/educacao/noticia/2026-09/percentual-de%20jovens-nem-nem-no-brasil-cai-para-224-mostra-estudo"]
+    "https://agenciabrasil.ebc.com.br/educacao/noticia/2026-09/percentual-de%20jovens-nem-nem-no-brasil-cai-para-224-mostra-estudo",
+    "https://agenciabrasil.ebc.com.br/economia/noticia/2026-04/pesquisa-revela-que-brasileiro-valoriza-emprego-com-carteira-assinada",
+    "https://agenciabrasil.ebc.com.br/politica/noticia/2026-05/senado-aprova-projeto-de-incentivo-ao-primeiro-emprego-para-jovens"]
 
 resposta_robots = requests.get(ROBOTS_URL, headers={"User-Agent": AGENTE}, timeout=20)
 resposta_robots.raise_for_status()
